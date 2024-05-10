@@ -37,7 +37,7 @@ def get_score_list_by_user_index_list(user_index_list:list[int]) -> list[list[in
     return score_list
 
 
-def run():
+def run(file_prefix = "initial"):
     file = open("user_index.json", "r")
     data = json.load(file)
     file.close()
@@ -51,7 +51,7 @@ def run():
     for i in range(user_count):
         result_data[username_list[i]] = score_list[i]
 
-    score_list_file = open("initial_score_data.json", "w")
+    score_list_file = open(f"{file_prefix}_wargame_count_data.json", "w")
     score_list_file.write(json.dumps(result_data, indent=2, ensure_ascii=False))
     score_list_file.close()
 

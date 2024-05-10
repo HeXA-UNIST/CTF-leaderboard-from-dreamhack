@@ -1,7 +1,7 @@
 discordbot_data.py
 username_list.txt
 user_index.json
-initial_score_data.json
+*_wargame_count_data.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
