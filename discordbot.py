@@ -46,7 +46,7 @@ async def time_scheduler():
         generate_wargame_count_data.run()
         initialize_competition()
         channel = bot.get_channel(discordbot_data.TARGET_CHANNEL_ID)
-        await channel.send("**Competition has beginned!**")
+        await channel.send("**Competition has begun!**")
         await get_leaderboard()
 
     current_time = datetime.now(korea_timezone)
@@ -79,14 +79,18 @@ def get_leaderboard_str_from_sorted_score_dict(sorted_score_dict:dict) -> str:
     message += "```\n"
     message += "Leaderboard\n"
     datetime_str_format = '%Y-%m-%d %H:%M:%S'
-    message += "competition started at: " + begin_datetime.strftime(datetime_str_format) + "\n"
     current_time = datetime.now(korea_timezone)
-    print(current_time)
-    print(end_datetime)
-    if current_time < end_datetime:
+    if current_time <begin_datetime:
+        message += "competition starts at: " + begin_datetime.strftime(datetime_str_format) + "\n"
+        message += "competition ends at: " + end_datetime.strftime(datetime_str_format) + "\n"
+        message += "current time: "+current_time.strftime(datetime_str_format)+ "\n"
+
+    elif current_time < end_datetime:
+        message += "competition started at: " + begin_datetime.strftime(datetime_str_format) + "\n"
         message += "competition ends at: " + end_datetime.strftime(datetime_str_format) + "\n"
         message += "current time: "+current_time.strftime(datetime_str_format)+ "\n"
     else:
+        message += "competition started at: " + begin_datetime.strftime(datetime_str_format) + "\n"
         message += "competition ended at: " + end_datetime.strftime(datetime_str_format) + "\n"
         message += "The competition has finished!\n"
     message += "\n"
