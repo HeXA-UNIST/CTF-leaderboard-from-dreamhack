@@ -105,7 +105,7 @@ def get_leaderboard_str_from_sorted_score_dict(sorted_score_dict:dict, wargame_c
             if(wargame_count_list[i] - initial_wargame_count_list[i]!=0):
                 if not solved_any:
                     solved_any = True
-                    message += "   ㄴ "
+                    message += "   ∟ "
                 else:
                     message +=", "
                 message += f"Lv{i+1}: {wargame_count_list[i] - initial_wargame_count_list[i]}"
