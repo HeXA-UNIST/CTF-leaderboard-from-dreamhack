@@ -74,7 +74,7 @@ async def on_message(message):
     if message.channel.id == discordbot_data.TARGET_CHANNEL_ID:
         await bot.process_commands(message)
 
-def get_leaderboard_str_from_sorted_score_dict(sorted_score_dict:dict) -> str:
+def get_leaderboard_str_from_sorted_score_dict(sorted_score_dict:dict, wargame_count_dict:dict) -> str:
     message = ""
     message += "```\n"
     message += "Leaderboard\n"
@@ -98,6 +98,18 @@ def get_leaderboard_str_from_sorted_score_dict(sorted_score_dict:dict) -> str:
     for username, score in sorted_score_dict.items():
         rank += 1
         message += f"{rank}. {username}: {score} \n"
+        wargame_count_list = wargame_count_dict[user_index_dict[username]]
+        solved_any = False
+        for i in range(10):
+            if(wargame_count_list[i]!=0):
+                if not solved_any:
+                    solved_any = True
+                    message += "   ㄴ "
+                else:
+                    message +=", "
+                message += f"Lv{i+1}: {wargame_count_list[i]}"
+        if solved_any:
+            message += "\n"
     message+="```"
     return message
 
@@ -114,7 +126,10 @@ async def get_leaderboard():
     
     sorted_score_dict = dict(sorted(score_dict.items(), key=lambda item: item[1], reverse=True))
     print(sorted_score_dict)
-    message = get_leaderboard_str_from_sorted_score_dict(sorted_score_dict)
+    wargame_count_dict = {}
+    for i in range(len(user_index_list)):
+        wargame_count_dict[user_index_list[i]] = wargame_count[i]
+    message = get_leaderboard_str_from_sorted_score_dict(sorted_score_dict, wargame_count_dict)
 
     channel = bot.get_channel(discordbot_data.TARGET_CHANNEL_ID)
     await channel.send(message)
@@ -124,6 +139,7 @@ async def get_leaderboard():
 def initialize_competition():
     global username_list
     global user_index_list
+    global user_index_dict
     global initial_score_dict
     # get user index list
     user_index_json_file = open("user_index.json", 'r')
