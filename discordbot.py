@@ -99,7 +99,7 @@ def get_leaderboard_str_from_sorted_score_dict(sorted_score_dict:dict, wargame_c
         rank += 1
         message += f"{rank}. {username}: {score} \n"
         wargame_count_list = wargame_count_dict[user_index_dict[username]]
-        initial_wargame_count_list = initial_wargame_count_dict[user_index_dict[username]]
+        initial_wargame_count_list = initial_wargame_count_dict[username]
         solved_any = False
         for i in range(10):
             if(wargame_count_list[i] - initial_wargame_count_list[i]!=0):
