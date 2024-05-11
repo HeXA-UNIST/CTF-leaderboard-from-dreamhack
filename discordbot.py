@@ -99,15 +99,16 @@ def get_leaderboard_str_from_sorted_score_dict(sorted_score_dict:dict, wargame_c
         rank += 1
         message += f"{rank}. {username}: {score} \n"
         wargame_count_list = wargame_count_dict[user_index_dict[username]]
+        initial_wargame_count_list = initial_wargame_count_dict[user_index_dict[username]]
         solved_any = False
         for i in range(10):
-            if(wargame_count_list[i]!=0):
+            if(wargame_count_list[i] - initial_wargame_count_list[i]!=0):
                 if not solved_any:
                     solved_any = True
                     message += "   ㄴ "
                 else:
                     message +=", "
-                message += f"Lv{i+1}: {wargame_count_list[i]}"
+                message += f"Lv{i+1}: {wargame_count_list[i] - initial_wargame_count_list[i]}"
         if solved_any:
             message += "\n"
     message+="```"
@@ -141,6 +142,7 @@ def initialize_competition():
     global user_index_list
     global user_index_dict
     global initial_score_dict
+    global initial_wargame_count_dict
     # get user index list
     user_index_json_file = open("user_index.json", 'r')
     user_index_dict = json.load(user_index_json_file)
