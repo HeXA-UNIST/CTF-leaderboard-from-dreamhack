@@ -95,8 +95,15 @@ def get_leaderboard_str_from_sorted_score_dict(sorted_score_dict:dict, wargame_c
         message += "The competition has finished!\n"
     message += "\n"
     rank = 0
+    last_score = -1
+    tie_count = 1
     for username, score in sorted_score_dict.items():
-        rank += 1
+        if score != last_score:
+            rank += tie_count
+            tie_count = 1
+            last_score = score
+        else:
+            tie_count += 1
         message += f"{rank}. {username}: {score} \n"
         wargame_count_list = wargame_count_dict[user_index_dict[username]]
         initial_wargame_count_list = initial_wargame_count_dict[username]
